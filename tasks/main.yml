@@ -1,0 +1,23 @@
+---
+# tasks file for mrhoads.vim
+
+- name: Ensure vim and git are installed
+  package:
+    name:
+      - vim
+      - git
+    state: present
+  become: true
+
+- name: Clone Vundle repo
+  git:
+    repo: https://github.com/VundleVim/Vundle.vim.git
+    dest: "{{ ansible_env.HOME }}/.vim/bundle/Vundle.vim"
+
+- name: Configure vimrc file
+  copy:
+    src: .vimrc
+    dest: "{{ ansible_env.HOME }}/.vimrc"
+
+- name: Install vim plugins
+  command: "vim +PluginInstall +qall"
